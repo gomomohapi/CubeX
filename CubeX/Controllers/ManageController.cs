@@ -16,6 +16,7 @@ namespace CubeX.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+
         public ManageController()
         {
         }
@@ -64,14 +65,91 @@ namespace CubeX.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            var RoleName = GetUserRole();
+
+            using (var db = ApplicationDbContext.Create())
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
+
+                var userInDb = db.Users.First(u => u.Id.Equals(userId));
+
+                var model = new IndexViewModel
+                {
+                    HasPassword = HasPassword(),
+                    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                    Logins = await UserManager.GetLoginsAsync(userId),
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                    Email = userInDb.Email,
+                    Id = userInDb.Id,
+                    FirstName = userInDb.FirstName,
+                    Surname = userInDb.Surname,
+                    Role = RoleName
+                };
+                return View(model);
+            }
+        }
+
+        public string GetUserRole()
+        {
+            string role;
+
+            if (User.IsInRole("Admin"))
+                role = "Admin"; 
+            else if (User.IsInRole("Staff"))
+                role = "Staff";
+            else
+                role = "Customer";
+
+            return role;
+        }
+
+        public async Task<ActionResult> Edit()
+        {
+            var userId = User.Identity.GetUserId();
+            var RoleName = GetUserRole();
+
+            using (var db = ApplicationDbContext.Create())
+            {
+
+                var userInDb = db.Users.First(u => u.Id.Equals(userId));
+
+                var model = new IndexViewModel
+                {
+                    HasPassword = HasPassword(),
+                    PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
+                    TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                    Logins = await UserManager.GetLoginsAsync(userId),
+                    BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                    Email = userInDb.Email,
+                    Id = userInDb.Id,
+                    FirstName = userInDb.FirstName,
+                    Surname = userInDb.Surname,
+                    Role = RoleName
+                };
+                return View(model);
+            }
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(IndexViewModel model)
+        {
+            using (var db = ApplicationDbContext.Create())
+            {
+                if (ModelState.IsValid)
+                {
+                    var userInDb = db.Users.First(u => u.Id.Equals(model.Id));
+                    userInDb.FirstName = model.FirstName;
+                    userInDb.Surname = model.Surname;
+                    userInDb.Email = model.Email;
+                    userInDb.UserName = model.Email;
+
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+
             return View(model);
         }
 
@@ -333,7 +411,7 @@ namespace CubeX.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +462,6 @@ namespace CubeX.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

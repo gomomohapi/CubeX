@@ -7,11 +7,21 @@ namespace CubeX.Models
 {
     public class IndexViewModel
     {
+        public string FirstName { get; set; }
+        public string Surname { get; set; }
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public string Role { get; set; }
+
+        [Required]
+        public string Id { get; set; }
+
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
     }
 
     public class ManageLoginsViewModel
