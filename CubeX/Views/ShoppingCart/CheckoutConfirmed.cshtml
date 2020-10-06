@@ -1,0 +1,10 @@
+﻿
+@{
+    ViewBag.Title = "Purchase Successful";
+}
+
+<div style="display:flex; justify-content:center; align-items:center; "><span style="color:lightgreen;  padding:25px; transform:scale(2.5)" class="glyphicon glyphicon-ok"></span><div style="padding:5px; font-size:2rem;" > Purchase Successful...</div></div>
+
+<p>You will be redirected in 3 seconds... If not, click @Html.ActionLink("here","Details", "Order", null, null)</p>
+
+@MyHelpers.RedirectBackToUrl("/Order/Details", 3)

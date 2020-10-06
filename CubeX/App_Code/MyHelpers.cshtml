@@ -1,0 +1,52 @@
+﻿
+
+@helper NumberEdit(string Name, int? range)
+{
+if (range == null)
+{
+        range = 50;
+}
+    <input class="text-box single-line"
+           data-val="true"
+           data-val-number="The field @Name must be a number.")
+           data-val-range="The field @Name must be between 1 and @range .")
+           data-val-range-max=@range
+           data-val-range-min="1"
+           id=@Name
+           name=@Name
+           type="number"
+           value="1" />
+
+}
+
+@helper RedirectBackToUrl(string url, int duration) {
+
+        <meta http-equiv="refresh" content="@(duration);url=@(url)">        
+}
+
+
+@helper AsyncFormValidationHelper(string url, string valueSelector, 
+    string buttonSelector, string fieldName, string  errorElementSelector) {
+
+    <script type="text/javascript">
+        // get the button to be clicked
+        var createButton = document.querySelector("@buttonSelector");
+
+        createButton.addEventListener("click", function (event) {
+            // get the value to be added to the http request url 
+        var sourceText = document.querySelector("@valueSelector").value;
+
+        if (sourceText.length < 5) {
+            event.preventDefault();
+            var errorElement = document.querySelector("@errorElementSelector");
+
+            errorElement.innerText = "The field @fieldName must be a valid Residential Address";
+            return;
+        }
+        
+        createButton.setAttribute("href", url + sourceText);
+        
+
+    });
+    </script>
+}

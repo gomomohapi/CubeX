@@ -1,0 +1,66 @@
+﻿@model IEnumerable<CubeX.Models.FoodItem>
+
+@{
+    ViewBag.Title = "All Food Items";
+}
+
+<h2>All Canteen Items</h2>
+
+@if (ViewBag.Message != null)
+{
+    <p class="text-center text-success">@(ViewBag.Message as string)</p>
+}
+else
+{
+    <p class="text-center text-danger">@(ViewBag.ErrorMessage as string)</p>
+}
+
+<table class="table table-striped category-table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+
+        <th></th>
+    </tr> 
+
+    @foreach (var item in Model)
+    {
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @if (item.isEnabled == true)
+                {
+                   @Html.ActionLink("Add To Cart", "Buy", new { id = item.ID, returnUrl = Url.Action("All") }, new { @class = "btn btn-primary" });
+                }
+                else
+                {
+                    <button disabled type="button" class="btn btn-success" >Added to Cart</button>@Html.Raw(" | ")
+                    @Html.ActionLink("Edit", "Edit", "ShoppingCart", new { cartItemId = item.CartItemId, returnUrl = Url.Action() }, new { @class = "btn btn-primary" })
+                    @Html.Raw(" | ")
+                    @Html.ActionLink("Remove", "Remove", "ShoppingCart", new { cartItemId = item.CartItemId, returnUrl = Url.Action() }, new { @class = "btn btn-danger" });
+                   
+                    
+                }
+
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,54 @@
+﻿@model CubeX.Models.FoodItem
+
+@{
+    ViewBag.Title = "Buy";
+}
+
+<h2>Are you sure?</h2>
+
+<div>
+    <h4>Are you sure you want to add this Item to your Cart?</h4>
+    <hr />
+    @using (Html.BeginForm("ConfirmBuy", "Home", FormMethod.Post))
+    {
+
+        @Html.HiddenFor(model => model.ID)              /* Could leave this at just ViewBag.ReturnUrl, but just to be safe */
+        <input type="hidden" name="returnUrl" value="@(ViewBag.ReturnUrl == null ? "" : (ViewBag.ReturnUrl as string))" />
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Price)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+
+            <dt>
+               Quantity
+            </dt>
+
+            <dd>
+                @MyHelpers.NumberEdit("Quantity", 20)                
+            </dd>
+        </dl>
+
+        <p>
+            <input class="btn btn-success" type="submit" value="Confirm Buy" />
+            
+            @Html.ActionLink("Goto List", "All", null, new { @class = "btn btn-primary" })
+        </p>
+    }
+
+</div>
+
+
+

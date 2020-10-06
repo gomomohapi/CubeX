@@ -1,0 +1,49 @@
+﻿@{ ViewBag.Title = "CubeX"; }
+
+<div class="jumbotron" id="home-jumbotron">
+    <h1>CubeX</h1>
+    <p class="lead">CubeX is an online Food Ordering system, where users can view our Food items and make orders</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4 index-nav-card">
+        <div class="card-bg">
+            <h2>About us</h2>
+            <p>
+                Need quick and quality Meal but can't afford time to go out to buy or cook? <br />
+                Brings Canteen is an online Food Ordering system,
+                where users can view our Food items and make orders
+            </p>
+            <p>
+                @Html.ActionLink("Learn More", "About", null, new { @class = "btn btn-primary" })
+            </p>
+        </div>
+
+    </div>
+    <div class="col-md-4 index-nav-card">
+        <div class="card-bg">
+            <h2>Order It</h2>
+            <p>
+                Checkout our various Food Categories to select which to add to your cart. <br />
+                Checkout is fast.
+            </p>
+            <p>
+                @Html.ActionLink("Food Categories", "Category", null, new { @class = "btn btn-primary" })
+            </p>
+        </div>
+
+    </div>
+    <div class="col-md-4 index-nav-card">
+        <div class="card-bg">
+            <h2>Delivery</h2>
+            <p>
+                Our delivery system is top notch and as of now the fastest delivery in town,
+                have you food delivered within 10 minutes of ordering.
+            </p>
+            <p>
+                @Html.ActionLink("Checkout", "Checkout", "ShoppingCart", null, new { @class = "btn btn-primary" })
+            </p>
+        </div>
+
+    </div>
+</div>

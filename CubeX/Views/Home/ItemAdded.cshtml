@@ -1,0 +1,42 @@
+﻿@model CubeX.Models.CartItem
+
+@{ ViewBag.Title = "ItemAdded"; }
+
+<h2>@Model.Name has been added to your Cart</h2>
+@{ string returnUrl = ((ViewBag.ReturnUrl as string) ?? "Category");}
+
+@MyHelpers.RedirectBackToAction(returnUrl, 5)
+
+<div>
+    <h4>Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+    </dl>
+</div>
+<p>
+
+    @Html.ActionLink("Click here Link if you are not Redirected in 5 seconds...", returnUrl)
+</p>

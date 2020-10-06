@@ -1,0 +1,66 @@
+﻿@model ICollection<CubeX.Models.Order>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Orders</h2>
+
+<div>
+    <h4>Pending Orders</h4>
+    <hr />
+    
+    <table class="table table-striped table-responsive">
+        <tr>
+            <th>
+                Payment
+            </th>
+
+            <th>
+                Items
+            </th>
+            <th>
+                Order Date
+            </th>
+            <th>
+                Destination
+            </th>
+            <th></th>
+        </tr>
+
+        @if ( Model != null && Model.Count > 0)
+        {
+            foreach (var order in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => order.TotalAmount)
+                    </td>
+
+                    <td>
+                        @foreach (var item in order.Items)
+                        {
+                            @Html.Raw(Html.DisplayFor(modelItem => item.Name) + " (" + item.Quantity.ToString() + ")" + "<br />")
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => order.OrderDate)
+                    </td>
+                    <td>
+                        @order.Destination
+                    </td>
+                    <td>
+                        @Html.ActionLink("Remove", "Delete", "Order", new { id = order.ID, returnUrl = Url.Action() }, new { @class = "btn btn-lg btn-primary btn-danger" })
+                    </td>
+                </tr>
+            }
+
+
+        }
+        else
+        {
+            <tr class="text-center"><td colspan="4"><h4>You have no Pending Orders at the moment.</h4> </td> </tr>
+        }
+
+    </table>
+</div>

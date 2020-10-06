@@ -1,0 +1,75 @@
+﻿@model ICollection<CubeX.Models.CartItem>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Shopping Cart</h2> 
+
+@if (ViewBag.Message != null)
+{
+    <p class="text-center text-success">@(ViewBag.Message as string)</p>
+}
+else
+{
+    <p class="text-center text-danger">@(ViewBag.ErrorMessage as string)</p>
+}
+
+<div>
+    <h4>Items</h4>
+    
+    <hr />
+    <table class="table table-striped table-responsive" >
+        <tr>
+            <th>
+                Name
+            </th>
+            
+            <th>
+                Price
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th></th>
+        </tr>
+
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (var cartItem in Model)
+            {
+                <tr>
+                    <td>
+                        @cartItem.Name
+                    </td>
+                    
+                    <td>
+                        @cartItem.Price
+                    </td>
+                    <td>
+                        @cartItem.Quantity
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "ShoppingCart", new { cartItemId = cartItem.ID, returnUrl = Url.Action() },new { @class = "btn btn-primary" }) |
+                        @Html.ActionLink("Remove", "Remove", "ShoppingCart", new { cartItemId = cartItem.ID, returnUrl = Url.Action() }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+
+            @Html.ActionLink("Checkout", "Checkout", null, new { @class = "btn btn-success btn-lg", id = "checkoutBtn" })
+
+            
+        }
+        else
+        {
+            <tr class="text-center"><td colspan="3"><h4>You do not have any item in your Cart</h4> </td> </tr>
+        }
+    </table>
+</div>
+
+    @if (ViewBag.HasOrder != null)
+    {
+        @Html.ActionLink("Orders", "Details", "Order", null, new { @class = "btn btn-default btn-lg", id = "ordersBtn" });
+
+    }
+

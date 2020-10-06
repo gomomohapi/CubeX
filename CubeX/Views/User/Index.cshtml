@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CubeX.ViewModels.UserVM>
+@using CubeX.Models
+
+@{ 
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Manage Users</h2>
+
+<br />
+<table class="table table-condensed table-hover">
+    <tr class="table-header">
+        <th>
+            @Html.DisplayNameFor(m => m.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.Surname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(m => m.Role)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @Html.DisplayFor(m => item.FirstName)
+    </td>
+    <td>
+        @Html.DisplayFor(m => item.Surname)
+    </td>
+    <td>
+        @Html.DisplayFor(m => item.Email)
+    </td>
+    <td>
+        @Html.DisplayFor(m => item.Role)
+    </td>
+</tr>
+    }
+</table>
+

@@ -1,0 +1,92 @@
+﻿@using CubeX.Models
+@model CubeX.ViewModels.Home.CategoryViewModel
+
+@{
+    ViewBag.Title = "Categories";
+}
+
+<h2>Categories</h2>
+<h4>@ViewBag.Message</h4>
+
+
+<table class="table table-striped category-table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Number of Food
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (Category item in Model.Category)
+    {
+        <tr class="@(item.ID == ViewBag.CategoryID ? "selected": "") ">
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @item.foodList.Count
+            </td>
+            <td>
+                @Html.ActionLink("Show", "Category", null, null, null, "selectedFoodTable", new { categoryId = item.ID }, new { @class = "btn btn-primary" })
+                
+            </td>
+        </tr>
+    }
+
+</table>
+
+@if (Model.foodList.Count > 0)
+{
+    <h3>All Food items in Selected Category</h3>
+    
+    <table class="table table-striped category-table" id="selectedFoodTable">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (FoodItem food in Model.foodList)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => food.Name)
+                </td>
+                <td>
+                    @food.Price
+                </td>
+                <td>
+                    <img src="data:image;base64,@System.Convert.ToBase64String(food.Image)" width="80" height="80" />
+                </td>
+                <td>
+
+
+                    @if (food.isEnabled == true)
+                    {
+                        @Html.ActionLink("Add To Cart", "Buy", new { id = food.ID, returnUrl = Url.Action("Category", new { categoryId = food.CategoryID }) + Html.Raw("#selectedFoodTable") }, new { @class = "btn btn-primary" })
+                    }
+                    else
+                    {
+                        <button disabled type="button" class="btn btn-success">Added to Cart</button> @Html.Raw(" | ")
+                        @Html.ActionLink("Edit", "Edit", "ShoppingCart", new { cartItemId = food.CartItemId, returnUrl = Url.Action("Category", new { categoryId = food.CategoryID }) + Html.Raw("#selectedFoodTable") }, new { @class = "btn btn-primary" });
+                        @Html.Raw(" | ")
+                        @Html.ActionLink("Remove", "Remove", "ShoppingCart",
+                            new { cartItemId = food.CartItemId, returnUrl = Url.Action("Category", new { categoryId = food.CategoryID }) + Html.Raw("#selectedFoodTable") },
+                            new { @class = "btn btn-danger" });
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}
