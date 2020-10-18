@@ -15,6 +15,8 @@ namespace CubeX.Models
         public DbSet<Order> Orders { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<FoodItem> FoodItems { get; set; }
+        public DbSet<Table> Tables { get; set; }
+        public DbSet<TableBooking> Booking { get; set; }
 
         public static ApplicationDbContext Create()
         {
