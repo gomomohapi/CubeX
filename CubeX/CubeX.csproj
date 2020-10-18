@@ -175,6 +175,7 @@
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\TableController.cs" />
+    <Compile Include="Controllers\TableDetailController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\ThumbnailExtensions.cs" />
     <Compile Include="Global.asax.cs">
@@ -315,6 +316,8 @@
     <Content Include="Views\Table\Details.cshtml" />
     <Content Include="Views\Table\Edit.cshtml" />
     <Content Include="Views\Table\Index.cshtml" />
+    <Content Include="Views\TableDetail\Book.cshtml" />
+    <Content Include="Views\Shared\_ThumbnailAreaPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
