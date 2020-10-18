@@ -1,0 +1,64 @@
+﻿@model CubeX.ViewModels.TableRentalViewModel
+@using CubeX.Utilities
+
+@{ ViewBag.Title = "Index"; }
+
+@using (Html.BeginForm("Reserve", "TableBook"))
+{
+@Html.AntiForgeryToken();
+
+    <br /><br />
+<div class="row">
+    @* Table Image *@
+    <div class="col-sm-3 col-xs-4 image-book">
+        <img class="thumbnail-img" src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" alt="" style="width:100%;height:auto;padding:10px;" />
+    </div>
+
+
+    @* Book Details *@
+    <div class="col-sm-6 col-xs-8 content-book-main">
+        <div class="content-book-title-author">
+            <h2><b>@Model.Name</b></h2>
+            <h5>Rendezvous Restaurant</h5>
+        </div>
+        <div>
+            <br />
+            <span>@Html.Raw(Model.Description)</span>
+        </div><br />
+    </div>
+
+
+    @* Table details *@
+<div class="col-sm-3 col-xs-12 content-book-product-details">
+
+    <label>Select your booking date: </label><br />
+    @Html.EditorFor(model => model.BookingDate, new { htmlAttributes = new { @class = "form-control" } })
+    <span style="font-size:12px;">Reserve quickly before your slot disappears<br /><br /></span>
+
+    <label>Select your booking time: </label><br />
+    @Html.EditorFor(model => model.BookingTime, new { htmlAttributes = new { @class = "form-control" } })
+    <span style="font-size:12px;">We're avaible between 10am and 3pm<br /><br /></span>
+
+    <label>How many people are coming: </label><br />
+    @Html.EditorFor(model => model.Seats, new { htmlAttributes = new { @class = "form-control" } })
+    <span style="font-size:12px;">Maximum 10 people per booking<br /><br /></span>
+
+    @if (User.IsInRole(SD.EndUserRole))
+    {
+        <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Reserve
+        </button>
+    }
+    else
+    {
+        <button type="submit" class="btn btn-danger" disabled="disabled">
+            <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Login to Reserve
+        </button>
+    }
+
+
+
+    @Html.HiddenFor(m => m.TableId)
+
+</div>
+</div>}

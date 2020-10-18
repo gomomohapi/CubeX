@@ -36,7 +36,7 @@ namespace CubeX.ViewModels
         public string UserId { get; set; }
         public string Email { get; set; }
         [DisplayName("First Name")]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } 
         [DisplayName("Last Name")]
         public string LastName { get; set; }
         public string FullName { get { return FirstName + " " + LastName; } }

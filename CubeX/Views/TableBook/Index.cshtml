@@ -1,0 +1,167 @@
+﻿@model IPagedList<CubeX.ViewModels.TableRentalViewModel>
+@using PagedList
+@using PagedList.Mvc
+@using CubeX.Utilities
+@using CubeX.Models
+@{ ViewBag.Title = "Index"; }
+
+@using (Html.BeginForm("Index", "TableBook", FormMethod.Get))
+{
+    <br />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <h3>Table Bookings</h3>
+                        @if (!User.IsInRole(SD.AdminUserRole))
+                        {
+        <p>
+            @Html.ActionLink("Make a Booking", "Book", "TableDetail", null, new {  @class = "btn btn-primary"})
+        </p>}
+                    </div>
+                    <div class="col-sm-8 pull-right">
+                        <div class="row">
+                            <div class="col-sm-12 text-right">
+                                @if (User.IsInRole(SD.AdminUserRole))
+                                {
+                <label class="radio-inline">
+                    @Html.RadioButton("option", "name") Name
+                </label>
+                                    <label class="radio-inline">
+                                        @Html.RadioButton("option", "email") Email
+                                    </label>}
+                                <label class="radio-inline">
+                                    @Html.RadioButton("option", "status") Status
+                                </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="pull-right">
+                                <button type="submit" name="submit" value="Search" class="btn btn-sm btn-primary">
+                                    <span class="glyphicon glyphicon-search"></span> &nbsp; Search
+                                </button>
+                            </div>
+                            <div class="pull-right">
+                                @Html.Editor("search", new { htmlAttributes = new { @class = "form-control input-sm" } })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                <br />
+
+                                                <table class="table table-condensed table-hover">
+                                                    <tr class="table-header">
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(m => m.First().FullName)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(m => m.First().Email)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(m => m.First().Name)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(m => m.First().BookingMade)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(m => m.First().BookingDate)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(m => m.First().BookingTime)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(m => m.First().Seats)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(m => m.First().Status)
+                                                        </th>
+                                                        <th></th>
+                                                    </tr>
+
+                                                    @foreach (var item in Model)
+                                                    {
+                                    <tr>
+                                        <td>
+                                            @Html.HiddenFor(m => item.UserId)
+                                        </td>
+                                        <td>
+                                            @Html.HiddenFor(m => item.TableId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.FullName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.BookingMade)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.BookingDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.BookingTime)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(m => item.Seats)
+                                        </td>
+                                        <td style="font-style: italic; font-weight: bold">
+                                            @Html.DisplayFor(m => item.Status)
+                                        </td>
+                                        <td>
+                                            @if (item.Status.ToString().ToLower().Equals(SD.RequestedLower) && User.IsInRole(SD.AdminUserRole))
+                                            {
+
+                        <a type="button" class="btn-danger btn btn-sm" href="@Url.Action("Decline/")@item.Id">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            <span></span>
+                        </a>
+
+                                                <a type="button" class="btn-success btn btn-sm" href="@Url.Action("Approve/")@item.Id">
+                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                    <span></span>
+                                                </a> }
+                                            else
+                                            {
+                                                if ((item.Status.ToString().ToLower().Equals(SD.RequestedLower) && (User.IsInRole(SD.EndUserRole))) ||
+                                                    (User.IsInRole(SD.AdminUserRole) && !item.Status.ToString().ToLower().Equals(SD.ClosedLower)))
+                                                {
+                                                    //Show Delete Button
+                                                    //If Status is Requested for Customers, show them delete button
+                                                    //If User is admin and status is not closed then show admin delete button
+
+                        <a type="button" class="btn-danger btn btn-sm" href="@Url.Action("Delete/")@item.Id">
+                            <span class="glyphicon glyphicon-trash"></span>
+                            <span></span>
+                        </a> }
+
+                    if (item.Status.ToString().ToLower().Equals(SD.ApprovedLower) && User.IsInRole(SD.AdminUserRole))
+                    {
+
+
+<a type="button" class="btn-primary btn btn-sm" href="@Url.Action("CheckIn/")@item.Id">
+    <span class="glyphicon glyphicon-share-alt"></span>
+    <span></span>
+</a> }
+else
+{
+if (item.Status.ToString().ToLower().Equals(SD.CheckedInLower) && User.IsInRole(SD.AdminUserRole))
+{
+<a type="button" class="btn-primary btn btn-sm" href="@Url.Action("Close/")@item.Id">
+    <span class="glyphicon glyphicon-retweet"></span>
+    <span></span>
+</a>}
+}
+}
+
+
+
+                                        </td>
+                                    </tr>}
+                                                </table>
+
+                                                                @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new { pageNumber }))
+}

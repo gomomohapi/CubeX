@@ -1,6 +1,7 @@
 ﻿using CubeX.Extensions;
 using CubeX.Models;
 using CubeX.ViewModels;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,64 +39,51 @@ namespace CubeX.Controllers
         }
 
 
-        //// GET: BookDetail
-        //public ActionResult Index(int id)
-        //{
-        //    var userid = User.Identity.GetUserId();
-        //    var user = db.Users.FirstOrDefault(u => u.Id == userid);
+        // GET: BookDetail
+        public ActionResult Index(int id)
+        {
+            var userid = User.Identity.GetUserId();
+            var user = db.Users.FirstOrDefault(u => u.Id == userid);
 
-        //    var bookModel = db.Books.Include(b => b.Genre).SingleOrDefault(b => b.Id == id);
+            var bookModel = db.Tables.SingleOrDefault(b => b.Id == id);
 
-        //    var rentalPrice = 0.0;
-        //    var oneMonthRental = 0.0;
-        //    var sixMonthRental = 0.0;
-        //    var rentalCount = 0;
-        //    if (userid != null && !User.IsInRole(SD.AdminUserRole))
-        //    {
-        //        var chargeRate = from u in db.Users
-        //                         join m in db.MembershipTypes on u.MembershipTypeId equals m.Id
-        //                         where u.Id.Equals(userid)
-        //                         select new { m.ChargeRateOneMonth, m.ChargeRateSixMonth, u.RentalCount };
+            //var rentalPrice = 0.0;
+            //var oneMonthRental = 0.0;
+            //var sixMonthRental = 0.0;
+            //var rentalCount = 0;
 
-        //        oneMonthRental = Convert.ToDouble(bookModel.Price) * Convert.ToDouble(chargeRate.ToList()[0].ChargeRateOneMonth) / 100;
-        //        sixMonthRental = Convert.ToDouble(bookModel.Price) * Convert.ToDouble(chargeRate.ToList()[0].ChargeRateSixMonth) / 100;
-        //        rentalCount = Convert.ToInt32(chargeRate.ToList()[0].RentalCount);
-        //    }
+            //if (userid != null && !User.IsInRole(SD.AdminUserRole))
+            //{
+            //    var chargeRate = from u in db.Users
+            //                     join m in db.MembershipTypes on u.MembershipTypeId equals m.Id
+            //                     where u.Id.Equals(userid)
+            //                     select new { m.ChargeRateOneMonth, m.ChargeRateSixMonth, u.RentalCount };
 
-        //    BookRentalViewModel model = new BookRentalViewModel
-        //    {
-        //        BookId = bookModel.Id,
-        //        ISBN = bookModel.ISBN,
-        //        Author = bookModel.Author,
-        //        Avaibility = bookModel.Avaibility,
-        //        DateAdded = bookModel.DateAdded,
-        //        Description = bookModel.Description,
-        //        Genre = db.Genres.FirstOrDefault(g => g.Id.Equals(bookModel.GenreId)),
-        //        GenreId = bookModel.GenreId,
-        //        ImageUrl = bookModel.ImageUrl,
-        //        Pages = bookModel.Pages,
-        //        Price = bookModel.Price,
-        //        Publisher = bookModel.Publisher,
-        //        PublicationDate = bookModel.PublicationDate,
-        //        ProductDimensions = bookModel.ProductDimensions,
-        //        Title = bookModel.Title,
-        //        UserId = userid,
-        //        RentalPrice = rentalPrice,
-        //        RentalPriceOneMonth = oneMonthRental,
-        //        RentalPriceSixMonth = sixMonthRental,
-        //        RentalCount = rentalCount
+            //    oneMonthRental = Convert.ToDouble(bookModel.Price) * Convert.ToDouble(chargeRate.ToList()[0].ChargeRateOneMonth) / 100;
+            //    sixMonthRental = Convert.ToDouble(bookModel.Price) * Convert.ToDouble(chargeRate.ToList()[0].ChargeRateSixMonth) / 100;
+            //    rentalCount = Convert.ToInt32(chargeRate.ToList()[0].RentalCount);
+            //}
 
-        //    };
+            TableRentalViewModel model = new TableRentalViewModel
+            {
+                TableId = bookModel.Id,
+                Avaibility = bookModel.Avaibility,
+                Description = bookModel.Description,
+                Image = bookModel.Image,
+                Name = bookModel.Name,
+                UserId = userid,
 
-        //    return View(model);
-        //}
+            };
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //}
+            return View(model);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+        }
     }
 }
