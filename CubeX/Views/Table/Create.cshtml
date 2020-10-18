@@ -1,0 +1,60 @@
+﻿@model CubeX.ViewModels.TableViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h3>Create Table</h3>
+        <hr />
+        <div class="form-border">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Table.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Table.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Table.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Table.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                   @Html.TextAreaFor(model => model.Table.Description, new { @class = "form-control", style = "height:250px;" })
+                    @Html.ValidationMessageFor(model => model.Table.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Table.Image, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Table.Image, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Table.Image, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Table.Avaibility, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Table.Avaibility, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Table.Avaibility, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-10">
+                <input type="submit" value="Create" class="btn btn-success btn-sm" />
+                @Html.Partial("_BackToListButtonPartial")
+            </div>
+        </div>
+    </div>
+}
+
