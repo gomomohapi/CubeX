@@ -201,6 +201,10 @@
     <Compile Include="Migrations\202010041429131_AddedImagetoFoodItem.Designer.cs">
       <DependentUpon>202010041429131_AddedImagetoFoodItem.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202010181202307_AddTableModels.cs" />
+    <Compile Include="Migrations\202010181202307_AddTableModels.Designer.cs">
+      <DependentUpon>202010181202307_AddTableModels.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -343,6 +347,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010041429131_AddedImagetoFoodItem.resx">
       <DependentUpon>202010041429131_AddedImagetoFoodItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202010181202307_AddTableModels.resx">
+      <DependentUpon>202010181202307_AddTableModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -4,6 +4,7 @@ using CubeX.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -59,23 +60,36 @@ namespace CubeX.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(TableViewModel tableVM)
+        public ActionResult Create(TableViewModel tableVM, HttpPostedFileBase file)
         {
             var table = new Table
             {
                 Avaibility = tableVM.Table.Avaibility,
                 Description = tableVM.Table.Description,
-                Image = tableVM.Table.Image,
-                Name = tableVM.Table.Name
+                //Image = tableVM.Table.Image,
+                Name = tableVM.Table.Name,
             };
             if (ModelState.IsValid)
             {
+                if (file != null && file.ContentLength > 0)
+                {
+                    table.Image = ConvertToBytes(file);
+                }
+
                 db.Tables.Add(table);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(tableVM);
+        }
+
+        public byte[] ConvertToBytes(HttpPostedFileBase image)
+        {
+            byte[] imageBytes = null;
+            BinaryReader reader = new BinaryReader(image.InputStream);
+            imageBytes = reader.ReadBytes((int)image.ContentLength);
+            return imageBytes;
         }
 
         // GET: Table/Edit/5

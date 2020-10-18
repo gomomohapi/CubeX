@@ -2,10 +2,10 @@
 @using CubeX.Models
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Manage Tables</h2>
-<br />
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -39,7 +39,7 @@
             @Html.DisplayFor(modelItem => item.Description)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Image)
+            <img src="data:image;base64,@System.Convert.ToBase64String(item.Image)" width="80" height="80" />
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
