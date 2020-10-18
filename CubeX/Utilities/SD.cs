@@ -7,6 +7,7 @@ namespace CubeX.Utilities
 {
     public static class SD
     {
+        //const = strings that dont change
         public const string EndUserRole = "Customer";
         public const string StaffUserRole = "Staff";
         public const string AdminUserRole = "Admin";

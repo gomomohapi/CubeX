@@ -1,4 +1,5 @@
 ﻿using CubeX.Models;
+using CubeX.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
@@ -79,7 +80,7 @@ namespace CubeX
             }
 
             // Creating Customer role     
-            if (!roleManager.RoleExists("Customer"))
+            if (!roleManager.RoleExists(SD.EndUserRole))
             {
                 var role = new IdentityRole();
                 role.Name = "Customer";
