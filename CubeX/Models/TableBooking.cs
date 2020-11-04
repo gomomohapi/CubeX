@@ -27,6 +27,9 @@ namespace CubeX.Models
 
         public int Seats { get; set; }
 
+        [Display(Name = "Table Number")]
+        public int TableNumber { get; set; }
+
         [Required]
         public StatusEnum Status { get; set; }
 

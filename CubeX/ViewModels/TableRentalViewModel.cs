@@ -30,6 +30,9 @@ namespace CubeX.ViewModels
         public DateTime? BookingTime { get; set; }
 
         public int Seats { get; set; }
+
+        [Display(Name = "Table Number")]
+        public int TableNumber { get; set; }
         public String Status { get; set; }
 
         //Users Model Properties

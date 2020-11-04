@@ -106,6 +106,55 @@ namespace CubeX.Controllers
             return View();
         }
 
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            TableBooking bookRent = db.Booking.Find(id);
+
+            var model = getVMFromTableBook(bookRent);
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(model);
+        }
+
+        private TableRentalViewModel getVMFromTableBook(TableBooking bookRent)
+        {
+            Table tableSelected = db.Tables.Where(x => x.Id == bookRent.TableId).FirstOrDefault();
+
+            var userDetails = from u in db.Users
+                              where u.Id.Equals(bookRent.UserId)
+                              select new { u.Id, u.FirstName, u.Surname, u.Email };
+
+            TableRentalViewModel model = new TableRentalViewModel
+            {
+                Id = bookRent.Id,
+                TableId = tableSelected.Id,
+                Name = tableSelected.Name,
+                Description = tableSelected.Description,
+                Image = tableSelected.Image,
+                Avaibility = tableSelected.Avaibility,
+                BookingMade = bookRent.BookingMade,
+                BookingDate = bookRent.BookingDate,
+                BookingTime = bookRent.BookingTime,
+                Seats = bookRent.Seats,
+                TableNumber = bookRent.TableNumber,
+                Status = bookRent.Status.ToString(),
+                Email = userDetails.ToList()[0].Email,
+                FirstName = userDetails.ToList()[0].FirstName,
+                LastName = userDetails.ToList()[0].Surname,
+                UserId = userDetails.ToList()[0].Id
+            };
+
+            return model;
+
+        }
+
 
         //public ActionResult Details(int? id)
         //{
@@ -151,10 +200,40 @@ namespace CubeX.Controllers
             }
 
             TableBooking tableBook = db.Booking.Find(id);
-            tableBook.Status = TableBooking.StatusEnum.Approved;
 
-            db.SaveChanges();
+            var model = getVMFromTableBook(tableBook);
 
+            if (model == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View("Approve", model);
+
+            //tableBook.Status = TableBooking.StatusEnum.Approved;
+
+            //db.SaveChanges();
+
+
+            //return RedirectToAction("Index", "TableBook");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Approve(TableRentalViewModel model)
+        {
+            if (model.Id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            if (ModelState.IsValid)
+            {
+                TableBooking tableBook = db.Booking.Find(model.Id);
+                tableBook.Status = TableBooking.StatusEnum.Approved;
+
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index", "TableBook");
         }

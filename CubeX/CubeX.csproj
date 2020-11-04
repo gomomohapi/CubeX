@@ -213,6 +213,10 @@
     <Compile Include="Migrations\202010181202307_AddTableModels.Designer.cs">
       <DependentUpon>202010181202307_AddTableModels.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011042159097_AddTableNumberProp.cs" />
+    <Compile Include="Migrations\202011042159097_AddTableNumberProp.Designer.cs">
+      <DependentUpon>202011042159097_AddTableNumberProp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -328,6 +332,7 @@
     <Content Include="Views\Shared\_ThumbnailAreaPartial.cshtml" />
     <Content Include="Views\TableDetail\Index.cshtml" />
     <Content Include="Views\TableBook\Index.cshtml" />
+    <Content Include="Views\TableBook\Approve.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -363,6 +368,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202010181202307_AddTableModels.resx">
       <DependentUpon>202010181202307_AddTableModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011042159097_AddTableNumberProp.resx">
+      <DependentUpon>202011042159097_AddTableNumberProp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
