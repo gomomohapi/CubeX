@@ -1,1 +1,108 @@
-﻿
+﻿@model CubeX.ViewModels.TableRentalViewModel
+
+@{
+    ViewBag.Title = "Approve";
+}
+
+@using (Html.BeginForm("Approve","TableBook"))
+{
+    @Html.AntiForgeryToken();
+
+    
+        <h2>@Model.actionName</h2>
+        <div class="row" style="border:1px solid #bbb9b9; border-radius:5px;">
+            <div class="col-sm-10">
+                <fieldset disabled>
+                    <div class="row" style="padding-bottom:5px;padding-top:25px;">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.FullName, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.FullName, new { @class = "form-control", enabled = "false" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom:5px;padding-top:25px;">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.Email, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", enabled = "false" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom:5px;padding-top:25px;">
+                        <div class="col-sm-3">
+                            @*@Html.LabelFor(m => m.Name, htmlAttributes: new { @class = "control-label" })*@
+                            <label class="control-label"> Booking Type </label>
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", enabled = "false" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom:5px;padding-top:25px;">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.BookingMade, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.BookingMade, "{0:MM/dd/yyyy}", new { @class = "form-control", enabled = "false" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom:5px;padding-top:25px;">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.BookingDate, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.BookingDate, "{0:MM/dd/yyyy}", new { @class = "form-control", enabled = "false" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom:5px;padding-top:25px;">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.BookingTime, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.BookingTime, "{0:HH:mm}", new { @class = "form-control", enabled = "false" })
+                        </div>
+                    </div>
+
+                    <div class="row" style="padding-bottom:5px;padding-top:25px;">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.Seats, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.Seats, new { @class = "form-control", enabled = "false" })
+                        </div>
+                    </div>
+                </fieldset>
+                    <div class="row" style="padding-bottom:5px;padding-top:25px;">
+                        <div class="col-sm-3">
+                            @Html.LabelFor(m => m.TableNumber, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.TableNumber, new { @class = "form-control", enabled = "false" })
+                        </div>
+                    </div>
+                <br />
+
+</div>
+            <div class="col-sm-2">
+                <div class="image-book">
+                    <img class="thumbnail-img" src="data:image;base64,@System.Convert.ToBase64String(Model.Image)" alt="" style="width:100%;height:auto;" />
+                </div>
+            </div>
+        </div>
+    <br />
+    <p>
+        <div>
+            @Html.ActionLink("All Bookings", "Index", null, new { @class = "btn btn-sm btn-danger"}) | <input type="submit" value="@Model.actionName" id="btnSubmit" class="btn btn-sm btn-success" />
+        </div>
+        
+    </p>
+    <br />
+}
+
+
+

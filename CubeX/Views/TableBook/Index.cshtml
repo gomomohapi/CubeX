@@ -7,14 +7,14 @@
 
 @using (Html.BeginForm("Index", "TableBook", FormMethod.Get))
 {
-    <br />
+<br />
                 <div class="row">
                     <div class="col-sm-4">
                         <h3>Table Bookings</h3>
                         @if (!User.IsInRole(SD.AdminUserRole))
                         {
         <p>
-            @Html.ActionLink("Make a Booking", "Book", "TableDetail", null, new {  @class = "btn btn-primary"})
+            @Html.ActionLink("Make a Booking", "Book", "TableDetail", null, new { @class = "btn btn-primary" })
         </p>}
                     </div>
                     <div class="col-sm-8 pull-right">
@@ -58,23 +58,25 @@
                                                             @Html.DisplayNameFor(m => m.First().Email)
                                                         </th>
                                                         <th>
-                                                            @Html.DisplayNameFor(m => m.First().Name)
+                                                            @*@Html.DisplayNameFor(m => m.First().Name)*@
+                                                            Booking Type
                                                         </th>
-                                                        <th>
+                                                        @*<th>
                                                             @Html.DisplayNameFor(m => m.First().BookingMade)
-                                                        </th>
+                                                        </th>*@
                                                         <th>
                                                             @Html.DisplayNameFor(m => m.First().BookingDate)
                                                         </th>
                                                         <th>
                                                             @Html.DisplayNameFor(m => m.First().BookingTime)
                                                         </th>
-                                                        <th>
+                                                        @*<th>
                                                             @Html.DisplayNameFor(m => m.First().Seats)
-                                                        </th>
+                                                        </th>*@
                                                         <th>
                                                             @Html.DisplayNameFor(m => m.First().Status)
                                                         </th>
+                                                        <th></th>
                                                         <th></th>
                                                     </tr>
 
@@ -96,21 +98,22 @@
                                         <td>
                                             @Html.DisplayFor(m => item.Name)
                                         </td>
-                                        <td>
+                                        @*<td>
                                             @Html.DisplayFor(m => item.BookingMade)
-                                        </td>
+                                        </td>*@
                                         <td>
                                             @Html.DisplayFor(m => item.BookingDate)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(m => item.BookingTime)
                                         </td>
-                                        <td>
+                                        @*<td>
                                             @Html.DisplayFor(m => item.Seats)
-                                        </td>
+                                        </td>*@
                                         <td style="font-style: italic; font-weight: bold">
                                             @Html.DisplayFor(m => item.Status)
                                         </td>
+
                                         <td>
                                             @if (item.Status.ToString().ToLower().Equals(SD.RequestedLower) && User.IsInRole(SD.AdminUserRole))
                                             {
@@ -160,8 +163,16 @@ if (item.Status.ToString().ToLower().Equals(SD.CheckedInLower) && User.IsInRole(
 
 
                                         </td>
-                                    </tr>}
+                                        <td>
+                                            <a type="button" class="btn-success btn btn-sm" href="@Url.Action("Details/")@item.Id">
+                                                <span class="glyphicon glyphicon-list"></span>
+                                                <span></span>
+                                            </a>
+                                        </td>
+                                    </tr>
+}
                                                 </table>
 
-                                                                @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new { pageNumber }))
-}
+                                                                @Html.PagedListPager(Model, pageNumber => Url.Action("Index", new { pageNumber }))}
+
+

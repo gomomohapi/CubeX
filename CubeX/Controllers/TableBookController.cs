@@ -231,6 +231,7 @@ namespace CubeX.Controllers
             {
                 TableBooking tableBook = db.Booking.Find(model.Id);
                 tableBook.Status = TableBooking.StatusEnum.Approved;
+                tableBook.TableNumber = model.TableNumber;
 
                 db.SaveChanges();
             }
