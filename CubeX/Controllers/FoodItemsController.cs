@@ -18,7 +18,7 @@ namespace CubeX.Controllers
         // GET: FoodItems
         public ActionResult Index()
         {
-            var foodItems = db.FoodItems.Include(f => f.Category);
+            var foodItems = db.FoodItems.Include(f => f.Category).Where(x => x.Discriminator == "FoodItem");
             return View(foodItems.ToList());
         }
 
