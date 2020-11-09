@@ -1,4 +1,5 @@
-﻿using CubeX.Models;
+﻿using CubeX.Keys;
+using CubeX.Models;
 using Microsoft.AspNet.Identity;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,8 +17,20 @@ namespace CubeX.Controllers
         // TODO : Add Admin roles to this action
         public async Task<ActionResult> Index()
         {
-            var orders = db.Orders.Include(o => o.User).Include(o => o.Items);
-            return View(await orders.ToListAsync());
+            var currentUserId = User.Identity.GetUserId();
+
+            if (User.IsInRole("Admin")){
+                var orders = db.Orders.Include(o => o.User).Include(o => o.Items);
+                return View(await orders.ToListAsync());
+            }
+            else
+            {
+                var orders = db.Orders
+                    .Include(o => o.User)
+                    .Include(o => o.Items)
+                    .Where(x => x.UserID == currentUserId);
+                return View(await orders.ToListAsync());
+            }
         }
 
         // GET: Order/Details/5
