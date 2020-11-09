@@ -6,10 +6,26 @@
     @Html.AntiForgeryToken()
 
 <ul class="nav navbar-nav navbar-right">
+    @{ 
+        CubeX.Models.ApplicationDbContext db = new CubeX.Models.ApplicationDbContext();
+        string userId = "text";
+        int cartCount = 0;
+        if (User.Identity.IsAuthenticated)
+        {
+            userId = User.Identity.GetUserId();
+        }
+
+        if (db.ShoppingCarts.Where(x => x.ApplicationUserID == userId).FirstOrDefault() != null)
+        {
+            cartCount = db.ShoppingCarts.Where(x => x.ApplicationUserID == userId).FirstOrDefault().Items.Count;
+        }
+
+
+    }
     @*<li>@Html.ActionLink("Cart(0)", "Details", "ShoppingCart")</li>*@
     <li>
         <a href="/ShoppingCart" class="">
-            <span class="glyphicon glyphicon-shopping-cart"></span> Cart
+            <span class="glyphicon glyphicon-shopping-cart"></span> Cart (@cartCount)
         </a>
     </li>
     <li>
