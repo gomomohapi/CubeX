@@ -15,8 +15,9 @@ namespace CubeX.Models
         [Required]
         public string Name { get; set; }
 
-        [DataType(DataType.Currency, ErrorMessage = "You did not enter a valid currency value ex. R15.6")]
-        public decimal Price { get; set; }
+        //[DataType(DataType.Currency, ErrorMessage = "You did not enter a valid currency value ex. R15.6")]
+        [Required(ErrorMessage = "You did not enter a valid currency value ex. R15.6")]
+        public double Price { get; set; }
 
         [ScaffoldColumn(true)]
         public bool? isEnabled { get; set; }

@@ -11,6 +11,8 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Net;
+using System.Net.Mail;
 
 namespace CubeX.Controllers
 {
@@ -171,7 +173,9 @@ namespace CubeX.Controllers
                 order.ID = GetNewUid();
                 order.TotalAmount = cart.Sum;
                 order.UserID = user.Id;
-                order.OrderDate = DateTime.UtcNow;
+                order.OrderDate = DateTime.Now;
+
+                SendEmail(order, cart, user);
 
                 // TODO set all cartItems order id to the new order entity
                 cart.Items.ToList().ForEach(cartItem =>
@@ -200,6 +204,52 @@ namespace CubeX.Controllers
                 }
             }
             return View();
+        }
+
+        public void SendEmail(Order order, ShoppingCart cart, ApplicationUser user)
+        {
+            string orderItems = "";
+            foreach (var item in cart.Items.ToList())
+            {
+                orderItems += $"\t Item: {item.Name} | Price: {item.Price.ToString("C")} | Quantity: {item.Quantity} \n";
+            }
+
+
+            string fullName = user.FirstName + " " + user.Surname;
+            string orderMessage =
+                $"Hello, {fullName}! \n\n" +
+                $"You have made an order with DUT Rendezvous Restaurant. \n\n" +
+                $"Your order details are as follows: \n" +
+                $"{orderItems} \n" +
+                $"Date: {order.OrderDate.ToLongDateString()} \n" +
+                $"Time: {order.OrderDate.ToShortTimeString()} \n" +
+                $"Total: {order.TotalAmount.ToString("C")} \n\n" +
+                $"Thank you for ordering with DUT Rendezvous Restaurant :)";
+
+            //SendEmail
+            var senderEmail = new MailAddress("dutrendezvous@gmail.com", "Rendezvous Restaurant");
+            var recieverMail = new MailAddress(user.UserName, fullName);
+            var password = "RendezvousDUT123";
+            var sub = "New Order!";
+            var body = orderMessage;
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(senderEmail.Address, password)
+            };
+            using (var mess = new MailMessage(senderEmail, recieverMail)
+            {
+                Subject = sub,
+                Body = body
+            })
+            {
+                smtp.Send(mess);
+            }
         }
 
         // Helpers

@@ -217,6 +217,10 @@
     <Compile Include="Migrations\202011042159097_AddTableNumberProp.Designer.cs">
       <DependentUpon>202011042159097_AddTableNumberProp.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202011111154408_UpdateDataTypes.cs" />
+    <Compile Include="Migrations\202011111154408_UpdateDataTypes.Designer.cs">
+      <DependentUpon>202011111154408_UpdateDataTypes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -373,6 +377,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011042159097_AddTableNumberProp.resx">
       <DependentUpon>202011042159097_AddTableNumberProp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011111154408_UpdateDataTypes.resx">
+      <DependentUpon>202011111154408_UpdateDataTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

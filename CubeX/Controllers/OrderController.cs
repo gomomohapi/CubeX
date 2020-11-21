@@ -1,6 +1,7 @@
 ﻿using CubeX.Keys;
 using CubeX.Models;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -31,6 +32,17 @@ namespace CubeX.Controllers
                     .Where(x => x.UserID == currentUserId);
                 return View(await orders.ToListAsync());
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Filter(string date)
+        {
+            DateTime filterDate = DateTime.Parse(date);
+            ViewBag.Date = filterDate;
+
+            var orders = db.Orders.Include(o => o.User).Include(o => o.Items)/*.Where(x => x.OrderDate.Date == filterDate)*/;
+            return View("Index", await orders.ToListAsync());
         }
 
         // GET: Order/Details/5

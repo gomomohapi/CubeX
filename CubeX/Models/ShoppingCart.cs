@@ -11,8 +11,9 @@ namespace CubeX.Models
         [Required]
         public string ID { get; set; }
 
-        [DataType(DataType.Currency, ErrorMessage = "Value must be a Currency ex. R20")]
-        public decimal Sum { get; set; }
+        //[DataType(DataType.Currency, ErrorMessage = "Value must be a Currency ex. R20")]
+        [Required]
+        public double Sum { get; set; }
 
         public string ApplicationUserID { get; set; }
 

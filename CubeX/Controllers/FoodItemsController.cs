@@ -99,10 +99,16 @@ namespace CubeX.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,Price,isEnabled,Image,CategoryID,Discriminator")] FoodItem foodItem)
+        public ActionResult Edit(FoodItem foodItem, HttpPostedFileBase file)
         {
             if (ModelState.IsValid)
             {
+                //you can put your existing save code here
+                if (file != null && file.ContentLength > 0)
+                {
+                    foodItem.Image = ConvertToBytes(file);
+                }
+
                 db.Entry(foodItem).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

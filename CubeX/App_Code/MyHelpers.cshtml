@@ -1,10 +1,10 @@
 ﻿
 
-@helper NumberEdit(string Name, int? range)
+@helper NumberEdit(string Name, double? range)
 {
 if (range == null)
 {
-        range = 50;
+        range = 10000;
 }
     <input class="text-box single-line"
            data-val="true"

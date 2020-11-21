@@ -13,7 +13,7 @@ namespace CubeX.Models
 
         [DataType(DataType.Currency, ErrorMessage = "Value must be a Currency ex. $20")]
         [Display(Name = "Sum")]
-        public decimal TotalAmount { get; set; }
+        public double TotalAmount { get; set; }
 
         [StringLength(50)]
         [Display(Name = "Order Destination")]

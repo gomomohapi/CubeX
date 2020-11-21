@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -11,8 +12,9 @@ namespace CubeX.Models
         [Range(1, 20)]
         public int? Quantity { get; set; }
 
-        [DataType(DataType.Currency, ErrorMessage = "Value must be a Currency ex. R20")]
-        public decimal TotalAmount { get; set; }
+        //[DataType(DataType.Currency, ErrorMessage = "Value must be a Currency ex. R20")]
+        [Required(ErrorMessage = "Value must be a Currency ex. R20")]
+        public double TotalAmount { get; set; }
 
         public string OrderID { get; set; }
 

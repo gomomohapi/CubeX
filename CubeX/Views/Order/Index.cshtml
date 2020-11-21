@@ -1,70 +1,108 @@
 ﻿@model IEnumerable<CubeX.Models.Order>
 
-@{
-    ViewBag.Title = "All Orders";
-}
+@{ ViewBag.Title = "All Orders"; }
 
 <h2>All Orders</h2>
 
+@using (Html.BeginForm("Filter", "Order" @*,FormMethod.Post, new { enctype = "multipart/form-data" }*@))
+{
+    @Html.AntiForgeryToken()
 
-<table class="table table-striped table-responsive">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.User.UserName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalAmount)
-        </th>
-        <th>
-            Items
-        </th>
-        <th>
-            Order Date
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Destination)
-        </th>
-        <th></th>
-    </tr>
+    <table class="table table-striped table-responsive">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>
+                Items
+            </th>
+            <th>
+                Order Date
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Destination)
+            </th>
+            <th></th>
+        </tr>
 
-    @if (Model != null && Model.Count() > 0)
-    {
-        
-        foreach (var item in Model)
+        @if (Model != null && Model.Count() > 0)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalAmount)
-                </td>
-                <td>
-                    @foreach (var foodItem in item.Items)
-                    {
-                        @Html.Raw(Html.DisplayFor(modelItem => foodItem.Name) + " (" + foodItem.Quantity.ToString() + ")" + "<br />")
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderDate)
-                </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Destination)
-                </td>
-                <td>
+            foreach (var item in Model)
+            {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.User.UserName)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.TotalAmount)
+    </td>
+    <td>
+        @foreach (var foodItem in item.Items)
+        {
+@Html.Raw(Html.DisplayFor(modelItem => foodItem.Name) + " (" + foodItem.Quantity.ToString() + ")" + "<br />")}
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.OrderDate)
+    </td>
 
-                    @Html.ActionLink("Remove", "Delete", new { id = item.ID, returnUrl = Url.Action() }, new { @class = "btn btn-danger" })
-                </td>
-            </tr>
-        }
-    }
-    else
-    {
-        <tr class="text-center"><td colspan="6"><h4>No User currently has any active or pending order</h4> </td> </tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Destination)
+    </td>
+    <td>
 
-    }
-
+        @Html.ActionLink("Remove", "Delete", new { id = item.ID, returnUrl = Url.Action() }, new { @class = "btn btn-danger" })
+    </td>
+</tr> }
+                }
+                else
+                {
+<tr class="text-center"><td colspan="6"><h4>No User currently has any active or pending order</h4> </td> </tr>}
 
 
-</table>
+
+    </table>
+
+                        
+
+                            if (User.IsInRole("Admin"))
+                            {
+                                <label> Date </label>
+                        <input id="date" name="date" type="date" class="form-control" />
+                        <br />
+                        <input class="btn btn-sm btn-info" type="submit" value="Filter Orders" />
+                        @Html.ActionLink("All Orders", "Index", null, new { @class = "btn btn-sm btn-success"})
+                        <br /><br />
+
+                                <div>
+                                    @{ 
+                                        double sum = 0;
+
+                                        if (ViewBag.Date == null)
+                                        {
+                                            foreach (var item in Model/*.Where(x => x.OrderDate.Date == ViewBag.Date)*/)
+                                            {
+                                                sum += item.TotalAmount;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            foreach (var item in Model.Where(x => x.OrderDate.Date == ViewBag.Date))
+                                            {
+                                                sum += item.TotalAmount;
+                                            }
+                                        }
+
+
+
+
+                                    }
+                                    Total Orders: @sum.ToString("C")
+                                </div>
+                            }
+
+
+}
