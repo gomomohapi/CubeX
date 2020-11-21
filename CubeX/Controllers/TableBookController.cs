@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -236,7 +237,53 @@ namespace CubeX.Controllers
                 db.SaveChanges();
             }
 
+            SendEmail(model.Id);
+
             return RedirectToAction("Index", "TableBook");
+        }
+
+        public void SendEmail(int id)
+        {
+            TableBooking tableBook = db.Booking.Find(id);
+            ApplicationUser user = db.Users.Find(tableBook.UserId);
+            Table table = db.Tables.Find(tableBook.TableId);
+
+            string fullName = user.FirstName + " " + user.Surname;
+
+            string orderMessage =
+                $"Hello, {fullName}! \n\n" +
+                $"Your table booking with DUT Rendezvous Restaurant has been approved! \n\n" +
+                $"Your order details are as follows: \n" +
+                $"Booking Type: {table.Name} \n" +
+                $"Booking Date: {tableBook.BookingDate.Value.ToLongDateString()} @ {tableBook.BookingTime.Value.ToShortTimeString()} \n" +
+                $"Number of seats: {tableBook.Seats} \n" +
+                $"Table Number: {tableBook.TableNumber} \n\n" +
+                $"Can't wait to have you dine with us :)";
+
+            //SendEmail
+            var senderEmail = new MailAddress("dutrendezvous@gmail.com", "Rendezvous Restaurant");
+            var recieverMail = new MailAddress(user.UserName, fullName);
+            var password = "RendezvousDUT123";
+            var sub = $"New Booking #{tableBook.Id}!";
+            var body = orderMessage;
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(senderEmail.Address, password)
+            };
+            using (var mess = new MailMessage(senderEmail, recieverMail)
+            {
+                Subject = sub,
+                Body = body
+            })
+            {
+                smtp.Send(mess);
+            }
         }
 
         //PickUp Get Method

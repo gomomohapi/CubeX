@@ -230,7 +230,7 @@ namespace CubeX.Controllers
             var senderEmail = new MailAddress("dutrendezvous@gmail.com", "Rendezvous Restaurant");
             var recieverMail = new MailAddress(user.UserName, fullName);
             var password = "RendezvousDUT123";
-            var sub = "New Order!";
+            var sub = $"New Order #{order.ID.Substring(0, 5)}!";
             var body = orderMessage;
 
             var smtp = new SmtpClient
