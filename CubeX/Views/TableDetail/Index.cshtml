@@ -1,7 +1,9 @@
 ﻿@model CubeX.ViewModels.TableRentalViewModel
 @using CubeX.Utilities
 
-@{ ViewBag.Title = "Index"; }
+@{ ViewBag.Title = "Index";
+
+    }
 
 @using (Html.BeginForm("Reserve", "TableBook"))
 {
@@ -18,7 +20,7 @@
     @* Book Details *@
     <div class="col-sm-6 col-xs-8 content-book-main">
         <div class="content-book-title-author">
-            <h2><b>@Model.Name</b></h2>
+            <h2><b>@Model.Name (@Model.Avaibility tables left)</b></h2>
             <h5>Rendezvous Restaurant</h5>
         </div>
         <div>
@@ -45,9 +47,18 @@
 
     @if (User.IsInRole(SD.EndUserRole))
     {
-        <button type="submit" class="btn btn-primary">
-            <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Reserve
-        </button>
+        if (Model.Avaibility == 0)
+        {
+            <button type="submit" class="btn btn-danger" disabled="disabled">
+                <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;No tables left to book
+            </button>
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Reserve
+            </button>
+        }
     }
     else
     {
@@ -55,6 +66,9 @@
             <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Login to Reserve
         </button>
     }
+
+    <label style="color: red"> @ViewBag.Errors </label>
+    <br /><br />
 
 
 

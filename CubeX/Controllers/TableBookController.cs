@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace CubeX.Controllers
 {
@@ -80,7 +81,7 @@ namespace CubeX.Controllers
             var userid = User.Identity.GetUserId();
             Table tableToRent = db.Tables.Find(book.TableId);
 
-            if (userid != null)
+            if (book.Seats <= 10)
             {
                 var userInDb = db.Users.SingleOrDefault(c => c.Id == userid);
                 
@@ -104,7 +105,13 @@ namespace CubeX.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index", "TableBook");
             }
-            return View();
+            else
+            {
+                ViewBag.Errors = "You cannot book more than 10 seats!";
+                return RedirectToAction("Index", new RouteValueDictionary(
+    new { controller = "TableDetail", action = "Index", Id = book.TableId }));
+            }
+            
         }
 
         public ActionResult Details(int? id)
